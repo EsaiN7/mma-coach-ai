@@ -15,4 +15,9 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\mmaacoachai.infrastructure\mmacoachai.infrastructure.csproj" />
+    <ProjectReference Include="..\mmacoachai.core\mmacoachai.core.csproj" />
+  </ItemGroup>
+
 </Project>

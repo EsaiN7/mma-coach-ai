@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="mmaacoachai.infrastructure/mmaacoachai.infrastructure.csproj" Id="d9bb271d-d29c-4d37-a393-91f7d15a6a79" />
+  <Project Path="mmaacoachai.infrastructure/mmacoachai.infrastructure.csproj" Id="d9bb271d-d29c-4d37-a393-91f7d15a6a79" />
   <Project Path="mmacoachai.api/mmacoachai.api.csproj" Id="c5488a3a-7cda-41d5-a03b-88627c052f71" />
   <Project Path="mmacoachai.core/mmacoachai.core.csproj" Id="ef7d8537-f0f9-4a37-bb30-c1418aba61c7" />
   <Project Path="mmacoachai.tests/mmacoachai.tests.csproj" Id="2ed8d9a1-8fa3-47b7-bcdd-8703262c6488" />
