@@ -16,6 +16,7 @@ namespace mmacoachai.api.Controllers
         {
             _context = context;
         }
+        //Get all coaches
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CoachResponse>>> GetCoaches()
         {
@@ -25,6 +26,20 @@ namespace mmacoachai.api.Controllers
 
             return Ok(response);
         }
+
+        //Get coach by id
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CoachResponse>> GetCoach(int id)
+        {
+            var coach = await _context.Coaches.FindAsync(id);
+            if (coach == null)
+            {
+                return NotFound();
+            }
+            return Ok(CoachMapper.ToCoachResponse(coach));
+        }
+
+        //used for inserting a new coach into the database
         [HttpPost]
         public async Task<ActionResult<CoachResponse>> CreateCoach(CreateCoachRequest request)
         {
@@ -37,6 +52,23 @@ namespace mmacoachai.api.Controllers
             await _context.SaveChangesAsync();
             return Ok(CoachMapper.ToCoachResponse(coach));
         }
+
+        //update coach by id
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<CoachResponse>> UpdateCoach(int id, UpdateCoachRequest request)
+        {
+            var coach = await _context.Coaches.FindAsync(id);
+            if (coach == null)
+            {
+                return NotFound();
+            }
+            coach.Name = request.Name;
+            coach.Email = request.Email;
+            await _context.SaveChangesAsync();
+            return Ok(CoachMapper.ToCoachResponse(coach));
+        }
+
+
     }
- 
+
 }

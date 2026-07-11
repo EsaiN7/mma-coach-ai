@@ -18,6 +18,7 @@ public class AthletesController : ControllerBase
         _context = context;
     }
 
+    //Get all athletes
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AthleteResponse>>> GetAthletes()
     {
@@ -27,7 +28,19 @@ public class AthletesController : ControllerBase
 
         return Ok(response);
     }
+    //Get athlete by id
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<AthleteResponse>> GetAthlete(int id)
+    {
+        var athlete = await _context.Athletes.FindAsync(id);
+        if (athlete == null)
+        {
+            return NotFound();
+        }
+        return Ok(AthleteMapper.ToAthleteResponse(athlete));
+    }
 
+    //used for inserting a new athlete into the database
     [HttpPost]
     public async Task<ActionResult<AthleteResponse>> CreateAthlete(CreateAthleteRequest request)
     {
@@ -49,4 +62,38 @@ public class AthletesController : ControllerBase
 
         return Ok(AthleteMapper.ToAthleteResponse(athlete));
     }
+
+    //update an athlete
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<AthleteResponse>> UpdateAthlete(int id, UpdateAthleteRequest request)
+    {
+        var athlete = await _context.Athletes.FindAsync(id);
+        if (athlete == null)
+        {
+            return NotFound();
+        }
+        
+        athlete.Age = request.Age;
+        athlete.WeightLbs = request.WeightLbs;
+        athlete.Stance = request.Stance;
+        athlete.ExperienceYears = request.ExperienceYears;
+        athlete.CoachNotes = request.CoachNotes;
+        await _context.SaveChangesAsync();
+        return Ok(AthleteMapper.ToAthleteResponse(athlete));
+    }
+
+    //delete an athlete
+    [HttpDelete("{id:int}")]
+    public ActionResult DeleteAthlete(int id)
+    {
+        var athlete = _context.Athletes.Find(id);
+        if (athlete == null)
+        {
+            return NotFound();
+        }
+        _context.Athletes.Remove(athlete);
+        _context.SaveChanges();
+        return NoContent();
+    }
+
 }
