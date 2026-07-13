@@ -1,16 +1,15 @@
-﻿using System;
+﻿using mmacoachai.core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace mmacoachai.core.Entities
+namespace mmacoachai.core.DTOs
 {
-    public class TrainingSession
+    public class CreateTrainingSessionRequest
     {
-        public int Id { get; set; }
         public int AthleteId { get; set; }
         public DateTime Date { get; set; }
         public int DurationMinutes { get; set; }
         public String Notes { get; set; } = string.Empty;
-
     }
 }
