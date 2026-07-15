@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using mmacoachai.api.Services;
 using mmacoachai.core.DTOs;
 using mmacoachai.core.Entities;
 using mmacoachai.core.Mappers;
@@ -12,10 +13,29 @@ namespace mmacoachai.api.Controllers;
 public class AthletesController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly AthleteService _athleteService;
 
-    public AthletesController(AppDbContext context)
+    public AthletesController(
+     AppDbContext context,
+     AthleteService athleteService)
     {
         _context = context;
+        _athleteService = athleteService;
+    }
+
+
+    //get athlete profile by id
+    [HttpGet("{id}/profile")]
+    public async Task<ActionResult<AthleteProfileResponse>> GetProfile(int id)
+    {
+        var profile = await _athleteService.GetAthleteProfileAsync(id);
+
+        if (profile == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(profile);
     }
 
     //Get all athletes
