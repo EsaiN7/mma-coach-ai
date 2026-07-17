@@ -1,0 +1,6 @@
+@mmacoachai.api_HostAddress = http://localhost:5236
+
+GET {{mmacoachai.api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
