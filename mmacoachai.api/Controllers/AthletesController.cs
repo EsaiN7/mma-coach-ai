@@ -14,13 +14,16 @@ public class AthletesController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly AthleteService _athleteService;
+    private readonly AIReccomendationService _aiReccomendationService;
 
     public AthletesController(
      AppDbContext context,
-     AthleteService athleteService)
+     AthleteService athleteService,
+     AIReccomendationService aiReccomendationService)
     {
         _context = context;
         _athleteService = athleteService;
+        _aiReccomendationService = aiReccomendationService;
     }
 
 
@@ -36,6 +39,21 @@ public class AthletesController : ControllerBase
         }
 
         return Ok(profile);
+    }
+
+    //Get AI reccomendations for athlete by id
+    [HttpGet("{id}/recommendations")]
+    public async Task<ActionResult<string>> GetRecommendations(int id)
+    {
+        var profile = await _athleteService.GetAthleteProfileAsync(id);
+
+        if (profile == null)
+            return NotFound();
+
+        var recommendations =
+            await _aiReccomendationService.GetReccomendatonsAsync(profile);
+
+        return Ok(recommendations);
     }
 
     //Get all athletes

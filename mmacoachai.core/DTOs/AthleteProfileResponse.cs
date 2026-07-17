@@ -20,5 +20,11 @@ namespace mmacoachai.core.DTOs
         public List<SkillRatingResponse> SkillRatings { get; set; } = [];
 
         public List<TrainingSessionResponse> TrainingSessions { get; set; } = [];
+
+        //Computed Properties
+        public int TotalTrainingSessions { get; set; }
+        public double LengthOfAverageTrainingSession { get; set; }
+        public string HighestRatedSkill { get; set; } = "";
+        public string LowestRatedSkill { get; set; } = "";
     }
 }

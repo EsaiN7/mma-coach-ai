@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using mmacoachai.api.Services;
 using mmacoachai.core.DTOs;
 using mmacoachai.core.Entities;
 using mmacoachai.core.Mappers;
@@ -12,10 +15,28 @@ namespace mmacoachai.api.Controllers
     public class CoachesController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public CoachesController(AppDbContext context)
+        private readonly CoachService _coachService;
+
+        public CoachesController(AppDbContext context, CoachService coachService)
         {
             _context = context;
+            _coachService = coachService;
         }
+
+        //Get Coach Dashboard by id
+        [HttpGet("{id}/dashboard")]
+        public async Task<ActionResult<CoachDashboardResponse>> GetDashBoard(int id)
+        {
+            var dashboard = await _coachService.GetCoachDashboardResponseAsync(id);
+
+            if (dashboard == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dashboard);
+        }
+
         //Get all coaches
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CoachResponse>>> GetCoaches()

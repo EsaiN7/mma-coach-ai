@@ -16,6 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AthleteService>();
+builder.Services.AddScoped<CoachService>();
+builder.Services.AddScoped<AIReccomendationService>();
 
 var app = builder.Build();
 

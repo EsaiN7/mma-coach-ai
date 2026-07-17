@@ -42,7 +42,22 @@ namespace mmacoachai.api.Services
 
                 TrainingSessions = athlete.TrainingSessions
                     .Select(TrainingSessionMapper.ToTrainingSessionResponse)
-                    .ToList()
+                    .ToList(),
+
+                TotalTrainingSessions = athlete.TrainingSessions.Count,
+
+                LengthOfAverageTrainingSession = athlete.TrainingSessions.Any()
+                 ? athlete.TrainingSessions.Average(ts => ts.DurationMinutes)
+                 : 0,
+
+                HighestRatedSkill = athlete.SkillRatings.Any()
+                 ? athlete.SkillRatings.OrderByDescending(sr => sr.Rating).First().SkillName
+                 : "",
+
+                LowestRatedSkill = athlete.SkillRatings.Any()
+                 ? athlete.SkillRatings.OrderBy(sr => sr.Rating).First().SkillName
+                 : ""
+
             };
         }
     }
