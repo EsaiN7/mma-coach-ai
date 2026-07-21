@@ -1,0 +1,72 @@
+﻿@page "/"
+
+@using mmacoachai.client.Models
+@using mmacoachai.client.Services
+
+@inject AthleteApiService AthleteService
+@inject NavigationManager Navigation
+
+<h1>MMA Coach AI</h1>
+
+<h2>Athletes</h2>
+
+@if (athletes == null)
+{
+    <p>Loading athletes...</p>
+}
+else if (athletes.Count == 0)
+{
+    <p>No athletes found.</p>
+}
+else
+{
+    <div class="athlete-grid">
+
+        @foreach (var athlete in athletes)
+        {
+            <div class="athlete-card">
+
+                <h3>
+                    @athlete.FirstName @athlete.LastName
+                </h3>
+
+                <p>
+                    Nickname: @athlete.NickName
+                </p>
+
+                <p>
+                    Weight: @athlete.WeightLbs lbs
+                </p>
+
+                <p>
+                    Stance: @athlete.Stance
+                </p>
+
+                <p>
+                    Experience: @athlete.ExperienceYears years
+                </p>
+
+
+                <button @onclick="() => GoToProfile(athlete.Id)">
+                    View Profile
+                </button>
+
+            </div>
+        }
+
+    </div>
+}
+
+@code {
+    private List<AthleteResponse>? athletes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        athletes = await AthleteService.GetAthletesAsync();
+    }
+
+    private void GoToProfile(int id)
+    {
+        Navigation.NavigateTo($"/athletes/{id}");
+    }
+}

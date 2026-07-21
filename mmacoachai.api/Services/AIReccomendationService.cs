@@ -7,12 +7,23 @@ using mmacoachai.core.DTOs;
 using mmacoachai.core.Entities;
 using mmacoachai.core.Mappers;
 using mmacoachai.infrastructure.Data;
+using Microsoft.Extensions.Configuration;
+using OpenAI;
 
 
 namespace mmacoachai.api.Services
 {
     public class AIReccomendationService
     {
+        
+
+        private readonly OpenAIClient _openAIClient;
+
+        public AIReccomendationService(OpenAIClient client)
+        {
+            _openAIClient = client;
+        }
+
 
         private string BuildPrompt(AthleteProfileResponse athlete)
         {
@@ -37,18 +48,42 @@ namespace mmacoachai.api.Services
                      Total Sessions:
                      {athlete.TotalTrainingSessions}
 
-                     Provide three concise coaching recommendations.
+                     Provide exactly three coaching recommendations.
+
+                     Each recommendation should be one sentence.
+
+                     Do not use markdown.
+
+                     Do not include introductions or conclusions.
+
+                     Focus on actionable MMA coaching advice.
                      """;
         }
 
 
-        public async Task<string> GetReccomendatonsAsync(AthleteProfileResponse athlete)
+        public async Task<string> GetReccomendationsAsync(AthleteProfileResponse athlete)
         {
-            var prompt = BuildPrompt(athlete);
+            try
+            {
+                var chatClient = _openAIClient.GetChatClient("gpt-4.1-mini");
 
-            await Task.Delay(500);
+                var prompt = BuildPrompt(athlete);
 
-            return $"Prompt sent to AI:\n\n{prompt}";
+                var completion = await chatClient.CompleteChatAsync(prompt);
+
+                return completion.Value.Content[0].Text;
+            }
+            catch (Exception)
+            {
+                return """
+                 AI service unavailable (demo mode).
+
+                 Suggested coaching recommendations:
+                 1. Increase defensive head movement drills.
+                 2. Continue emphasizing Brazilian Jiu-Jitsu while improving boxing fundamentals.
+                 3. Add one conditioning-focused session each week.
+                 """;
+            }
         }
 
 

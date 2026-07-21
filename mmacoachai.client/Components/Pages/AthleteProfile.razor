@@ -1,0 +1,122 @@
+﻿@page "/athletes/{id:int}"
+
+@using mmacoachai.client.Models
+@using mmacoachai.client.Services
+
+@inject AthleteApiService AthleteService
+
+
+@if (athlete == null)
+{
+    <p>Loading athlete profile...</p>
+}
+else
+{
+    <div class="profile-section">
+
+        <h2>
+            @athlete.FirstName @athlete.LastName
+        </h2>
+
+        <p>
+            Coach: @athlete.CoachName
+        </p>
+
+    </div>
+
+
+    <div class="profile-section">
+
+        <h2>
+            Training Stats
+        </h2>
+
+        <p>
+            Total Sessions: @athlete.TotalTrainingSessions
+        </p>
+
+        <p>
+            Average Session:
+            @athlete.LengthOfAverageTrainingSession minutes
+        </p>
+
+    </div>
+
+    <div class="profile-section">
+
+        <h2>
+            Skill Ratings
+        </h2>
+
+        @if (athlete.SkillRatings.Count == 0)
+        {
+            <p>No skill ratings recorded.</p>
+        }
+        else
+        {
+            @foreach (var skill in athlete.SkillRatings)
+            {
+                <p>
+                    <strong>@skill.SkillName:</strong>
+                    @skill.Rating / 10
+                </p>
+            }
+        }
+
+    </div>
+
+
+    <div class="profile-section">
+
+        <h2>
+            AI Recommendations
+        </h2>
+
+        <button @onclick="GenerateRecommendations">
+            Generate Recommendations
+        </button>
+
+        @if (loadingRecommendations)
+        {
+            <p>Generating recommendations...</p>
+        }
+        else if (!string.IsNullOrEmpty(recommendations))
+        {
+            <p>
+                @recommendations
+            </p>
+        }
+
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    private AthleteProfileResponse? athlete;
+
+    private string? recommendations;
+
+    private bool loadingRecommendations;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        athlete = await AthleteService.GetAthleteProfileAsync(id);
+    }
+
+
+    private async Task GenerateRecommendations()
+    {
+        loadingRecommendations = true;
+
+        recommendations = await AthleteService
+            .GetRecommendationsAsync(id);
+
+        loadingRecommendations = false;
+    }
+
+}
