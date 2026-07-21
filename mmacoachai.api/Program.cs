@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using mmacoachai.api.Services;
 using mmacoachai.infrastructure.Data;
 using mmacoachai.api.Services;
+using OpenAI;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<AthleteService>();
 builder.Services.AddScoped<CoachService>();
 builder.Services.AddScoped<AIReccomendationService>();
+
+builder.Services.AddSingleton(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+
+    var apiKey = configuration["OpenAI:ApiKey"]
+        ?? throw new InvalidOperationException("OpenAI API key not configured.");
+
+    return new OpenAIClient(apiKey);
+});
 
 var app = builder.Build();
 

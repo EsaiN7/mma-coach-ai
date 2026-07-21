@@ -51,7 +51,7 @@ public class AthletesController : ControllerBase
             return NotFound();
 
         var recommendations =
-            await _aiReccomendationService.GetReccomendatonsAsync(profile);
+            await _aiReccomendationService.GetReccomendationsAsync(profile);
 
         return Ok(recommendations);
     }

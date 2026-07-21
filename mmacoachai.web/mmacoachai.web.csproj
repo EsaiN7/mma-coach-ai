@@ -13,4 +13,8 @@
     <Folder Include="Pages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OpenAI" Version="2.12.0" />
+  </ItemGroup>
+
 </Project>
