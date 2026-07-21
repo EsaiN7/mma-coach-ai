@@ -32,7 +32,20 @@ builder.Services.AddSingleton(sp =>
     return new OpenAIClient(apiKey);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("BlazorPolicy",
+        policy =>
+        {
+            policy.AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowAnyOrigin();
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors("BlazorPolicy");
 
 // Configure middleware
 if (app.Environment.IsDevelopment())
