@@ -1,0 +1,249 @@
+# MMA Coach AI
+
+A full-stack athlete management application built with **ASP.NET Core**, **Entity Framework Core**, **Blazor Server**, and the **OpenAI API**. The application helps MMA coaches manage athletes, track training data, analyze performance, and generate AI-assisted coaching recommendations.
+
+---
+
+# Overview
+
+MMA Coach AI is a portfolio project that demonstrates modern full-stack .NET development. The application allows coaches to manage athletes, record training information, analyze athlete performance through calculated metrics, and generate personalized coaching recommendations using AI.
+
+The project follows a layered architecture that separates business logic, data access, and presentation, reflecting common software engineering practices used in production applications.
+
+---
+
+# Features
+
+## Athlete Management
+
+* Create, view, update, and delete athletes
+* Associate athletes with coaches
+* Store athlete information including:
+
+  * Name
+  * Nickname
+  * Weight
+  * Stance
+  * Experience
+  * Coach notes
+
+## Coach Management
+
+* Create and manage coaches
+* Assign athletes to coaches
+
+## Training Sessions
+
+* Record athlete training sessions
+* Store session date, duration, and notes
+
+## Skill Ratings
+
+Track athlete proficiency across multiple disciplines, including:
+
+* Boxing
+* Wrestling
+* Brazilian Jiu-Jitsu
+* Muay Thai
+* Kickboxing
+* Clinch Work
+
+---
+
+# Athlete Profiles
+
+Each athlete has a dedicated profile page displaying:
+
+* Coach information
+* Skill ratings
+* Training session history
+* Total number of training sessions
+* Average training session length
+* Highest rated skill
+* Lowest rated skill
+
+These metrics are calculated dynamically within the service layer instead of being stored directly in the database.
+
+---
+
+# AI Coaching Recommendations
+
+The application integrates with the OpenAI API to generate personalized coaching recommendations based on an athlete's profile.
+
+The AI evaluates information such as:
+
+* Coach assignment
+* Highest and lowest rated skills
+* Training frequency
+* Average training session duration
+
+This demonstrates how external AI services can be integrated into a traditional CRUD application while keeping the AI functionality isolated behind a dedicated service layer.
+
+---
+
+# Architecture
+
+The application follows a layered architecture to separate responsibilities and improve maintainability.
+
+```text
+Blazor Server UI
+        │
+        ▼
+ASP.NET Core Web API
+        │
+        ▼
+Service Layer
+        │
+        ▼
+Entity Framework Core
+        │
+        ▼
+SQL Server
+```
+
+## Project Structure
+
+```text
+mmacoachai.api
+├── Controllers
+├── Services
+└── Program.cs
+
+mmacoachai.core
+├── DTOs
+├── Entities
+└── Mappers
+
+mmacoachai.infrastructure
+└── Data
+    └── AppDbContext
+
+mmacoachai.client
+├── Components
+├── Models
+├── Services
+└── wwwroot
+```
+
+---
+
+# Technologies Used
+
+## Backend
+
+* ASP.NET Core Web API
+* C#
+* Entity Framework Core
+* SQL Server
+* Dependency Injection
+* Swagger / OpenAPI
+
+## Frontend
+
+* Blazor Server
+* Razor Components
+* HttpClient
+
+## AI
+
+* OpenAI .NET SDK
+* GPT-4.1 Mini
+
+---
+
+# API Endpoints
+
+## Athletes
+
+| Method | Endpoint             | Description               |
+| ------ | -------------------- | ------------------------- |
+| GET    | `/api/athletes`      | Retrieve all athletes     |
+| GET    | `/api/athletes/{id}` | Retrieve a single athlete |
+| POST   | `/api/athletes`      | Create a new athlete      |
+| PUT    | `/api/athletes/{id}` | Update an athlete         |
+| DELETE | `/api/athletes/{id}` | Delete an athlete         |
+
+## Athlete Profile
+
+| Method | Endpoint                     | Description                                            |
+| ------ | ---------------------------- | ------------------------------------------------------ |
+| GET    | `/api/athletes/{id}/profile` | Retrieve an athlete profile with calculated statistics |
+
+## AI Recommendations
+
+| Method | Endpoint                             | Description                          |
+| ------ | ------------------------------------ | ------------------------------------ |
+| GET    | `/api/athletes/{id}/recommendations` | Generate AI coaching recommendations |
+
+---
+
+# Screenshots
+
+### Home Dashboard
+
+*Add screenshot here*
+
+### Athlete Profile
+
+*Add screenshot here*
+
+### AI Recommendations
+
+*Add screenshot here*
+
+---
+
+# Concepts Demonstrated
+
+* Layered application architecture
+* RESTful API design
+* Entity Framework Core relationships
+* Data Transfer Objects (DTOs)
+* Mapper pattern
+* Service layer business logic
+* Dependency Injection
+* Computed statistics
+* Blazor Server
+* API consumption with HttpClient
+* External AI integration
+
+---
+
+# Future Improvements
+
+Potential future enhancements include:
+
+* Authentication and authorization
+* Coach dashboard analytics
+* Search and filtering
+* AI-generated weekly training plans
+* Performance charts and trends
+* Injury tracking
+* Docker support
+* Cloud deployment with Azure or AWS
+
+---
+
+# Running the Project
+
+1. Clone the repository.
+2. Configure the SQL Server connection string in `appsettings.json`.
+3. Apply the Entity Framework Core migrations.
+4. Configure your OpenAI API key.
+5. Run the API project.
+6. Run the Blazor Server project.
+7. Open the application in your browser.
+
+---
+
+# What I Learned
+
+This project strengthened my understanding of building full-stack .NET applications using a layered architecture. It provided hands-on experience with Entity Framework Core, dependency injection, REST API development, Blazor Server, and integrating external AI services while maintaining a clean separation of concerns.
+
+---
+
+# Author
+
+**Esai Barron**
+
+Software Engineer with a passion for .NET development, backend architecture, and practical AI-powered applications.
