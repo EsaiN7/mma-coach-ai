@@ -177,22 +177,6 @@ mmacoachai.client
 
 ---
 
-# Screenshots
-
-### Home Dashboard
-
-*Add screenshot here*
-
-### Athlete Profile
-
-*Add screenshot here*
-
-### AI Recommendations
-
-*Add screenshot here*
-
----
-
 # Concepts Demonstrated
 
 * Layered application architecture
